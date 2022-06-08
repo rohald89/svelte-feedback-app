@@ -1,7 +1,11 @@
 <script>
+  import { v4 as uuidv4 } from "uuid";
+  import { createEventDispatcher } from "svelte";
   import Card from "./Card.svelte";
   import Button from "./Button.svelte";
   import RatingSelect from "./RatingSelect.svelte";
+
+  const dispatch = createEventDispatcher();
 
   let text = "";
   let rating = 10;
@@ -20,13 +24,26 @@
   };
 
   const handleSelect = (e) => (rating = e.detail);
+
+  const handleSubmit = () => {
+    if (text.trim().length > min) {
+      const newFeedback = {
+        id: uuidv4(),
+        text,
+        rating: +rating,
+      };
+
+      dispatch("add-feedback", newFeedback);
+      text = "";
+    }
+  };
 </script>
 
 <Card>
   <header>
     <h2>How would you rate your service with us?</h2>
   </header>
-  <form>
+  <form on:submit|preventDefault={handleSubmit}>
     <RatingSelect on:rating-select={handleSelect} />
     <div class="input-group">
       <input
