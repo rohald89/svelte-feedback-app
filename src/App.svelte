@@ -18,10 +18,16 @@
       text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat nisi, ipsa dolor dicta iure unde consequatur excepturi aliquam quos. Recusandae quam consectetur officiis modi similique rerum reprehenderit fugiat laboriosam est.",
     },
   ];
+
+  const deleteFeedback = (e) => {
+    const itemId = e.detail;
+
+    feedback = feedback.filter((item) => item.id !== itemId);
+  };
 </script>
 
 <main class="container">
-  <FeedbackList {feedback} />
+  <FeedbackList {feedback} on:delete-feedback={deleteFeedback} />
 </main>
 
 <style>
